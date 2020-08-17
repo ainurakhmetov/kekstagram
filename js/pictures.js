@@ -205,11 +205,11 @@ function onDepthChange() {
   }
   if (filterMarvin.checked) {
     uploadPreview.style = `filter: invert(${depth * 100}%);`;
-    scaleValue.setAttribute('value', depth * 100 + '%');
+    scaleValue.setAttribute('value', `${depth * 100}%`);
   }
   if (filterPhobos.checked) {
     uploadPreview.style = `filter: blur(${depth * 3}px);`;
-    scaleValue.setAttribute('value', (depth * 3).toFixed(2) + 'px');
+    scaleValue.setAttribute('value', `${(depth * 3).toFixed(2)}px`);
   }
   if (filterHeat.checked) {
     uploadPreview.style = `filter: brightness(${depth * 3});`;
@@ -353,6 +353,50 @@ function hashtagsValidate() {
   }
 }
 
+function descriptionValidate() {
+  const description = textDescription.value;
+  if (description.length > 140) {
+    textDescription.setCustomValidity('длина комментария не может составлять больше 140 символов')
+  }
+}
+
 hashtags.addEventListener('blur', hashtagsValidate);
+textDescription.addEventListener('blur', descriptionValidate);
+
+// --------------- module 5 ---------------
+
+scalePin.addEventListener('mousedown', function (event) {
+  event.preventDefault();
+
+  let startX = event.clientX;
+
+  function onMouseMove(eventMove) {
+    eventMove.preventDefault();
+    const shift = startX - eventMove.clientX;
+    startX = eventMove.clientX;
+
+    scalePin.style.left = `${scalePin.offsetLeft - shift}px`;
+    scaleLevel.style.width = `${scalePin.offsetLeft / scaleLine.offsetWidth * 100}%`;
+
+    if (scalePin.offsetLeft <= 0) {
+      scalePin.style.left = '0px';
+      scaleLevel.style.width = '0%';
+    }
+    if (scalePin.offsetLeft >= scaleLine.offsetWidth) {
+      scalePin.style.left = `${scaleLine.offsetWidth}px`;
+      scaleLevel.style.width = '100%';
+    }
+    onDepthChange();
+  }
+
+  function onMouseUp(eventUp) {
+    eventUp.preventDefault();
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  }
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+})
 
 
