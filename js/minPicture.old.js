@@ -14,16 +14,16 @@
     return element
   }
 
-  function renderPhotoCards(arr) {
+  function renderPhotoCards(data) {
     const fragment = document.createDocumentFragment();
 
-    for (let i = 0; i < arr.length; i++) {
-      fragment.appendChild(renderPhotoCard(window.data[i]));
+    for (let i = 0; i < data.length; i++) {
+      fragment.appendChild(renderPhotoCard(data[i]));
     }
 
     pictures.appendChild(fragment);
   }
 
-  renderPhotoCards(window.data)
+  window.backend.get(renderPhotoCards)
 })()
 

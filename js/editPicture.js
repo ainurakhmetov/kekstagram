@@ -18,8 +18,31 @@
 
   document.addEventListener('keydown', onOverlayEsc)
 
-  uploadFile.addEventListener('change', function () {
+  // not ready :(
+  // function readImage(file) {
+  //   if (file.type && file.type.indexOf('image') === -1) {
+  //     console.log('Файл не является картинкой.', file.type, file);
+  //     return;
+  //   }
+  //   const oldPreview = document.querySelector('.img-upload__preview');
+  //   console.log(oldPreview.childNodes)
+  //   const reader = new FileReader();
+  //   oldPreview.removeChild(oldPreview.childNodes[1])
+  //   const img = document.createElement('img');
+  //   img.setAttribute('width', '586px')
+  //   img.setAttribute('height', '587px')
+  //   img.setAttribute('alt', 'Предварительный просмотр фотографии')
+  //   reader.addEventListener('load', (event) => {
+  //     img.src = event.target.result;
+  //     oldPreview.appendChild(img)
+  //   });
+  //   reader.readAsDataURL(file);
+  // }
+
+  uploadFile.addEventListener('change', function (e) {
     const uploadOverlay = document.querySelector('.img-upload__overlay');
+      // const fileList = e.target.files;
+      // readImage(fileList[0])
 
     uploadOverlay.classList.remove('hidden');
   })
@@ -219,5 +242,9 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   })
+
+  window.editPicture = {
+    uploadOverlay: uploadOverlay,
+  };
 
 })()

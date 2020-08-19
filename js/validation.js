@@ -3,6 +3,9 @@
 (function () {
   const hashtags = document.querySelector('.text__hashtags');
   const textDescription = document.querySelector('.text__description');
+  const uploadForm = document.querySelector('.img-upload__form');
+  const error = document.querySelector('.img-upload__message--error');
+  const errorLinks = document.querySelectorAll('.error__link');
 
   function hashtagsValidate() {
     const tags = hashtags.value;
@@ -54,6 +57,28 @@
       textDescription.setCustomValidity('длина комментария не может составлять больше 140 символов')
     }
   }
+
+  function postData() {
+    window.backend.post(new FormData(uploadForm), function () {
+      error.classList.add('hidden');
+      window.editPicture.uploadOverlay.classList.add('hidden');
+      uploadForm.reset();
+    }, uploadError);
+  }
+
+  function uploadError() {
+    error.classList.remove('hidden');
+    errorLinks[0].addEventListener('click', postData)
+    errorLinks[1].addEventListener('click', function () {
+      window.editPicture.uploadOverlay.classList.remove('hidden');
+    })
+    window.editPicture.uploadOverlay.classList.add('hidden');
+  }
+
+  uploadForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    postData()
+  });
 
   hashtags.addEventListener('blur', hashtagsValidate);
   textDescription.addEventListener('blur', descriptionValidate);

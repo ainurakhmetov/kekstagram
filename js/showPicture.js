@@ -5,7 +5,7 @@
   const bigPictureClose = document.querySelector('.big-picture__cancel');
   const pictures = document.querySelector('.pictures');
 
-  function renderBigPicture({ url, likes, comments }) {
+  function showPicture({ url, likes, comments }) {
     const bigPicture = document.querySelector('.big-picture');
     bigPicture.classList.remove('hidden');
     const fragment = document.createDocumentFragment();
@@ -18,7 +18,7 @@
     for (let i = 0; i < comments.length; i++) {
       const element = document.querySelector('.social__comment').cloneNode();
       const userPic = document.querySelector('.social__picture').cloneNode(true);
-      const textElem = document.createTextNode(comments[i]);
+      const textElem = document.createTextNode(comments[i].message);
 
       userPic.src = `img/avatar-${window.utils.getRandom(1, 6)}.svg`;
       element.appendChild(userPic);
@@ -45,7 +45,7 @@
       const target = evt.target;
       for (let i = 0; i < data.length; i++) {
         if (target.getAttribute('src') === data[i].url) {
-          renderBigPicture(data[i]);
+          showPicture(data[i]);
         }
       }
       document.addEventListener('keydown', onBigPictureClose);
